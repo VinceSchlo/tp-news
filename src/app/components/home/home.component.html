@@ -1,49 +1,75 @@
-<h1>NEWS APP</h1>
-<p *ngIf="currentUser">Welcome {{ currentUser.data.user.firstname }} {{ currentUser.data.user.lastname }}</p>
+<section id="home">
+  <aside>
+    <ul class="tree-view">
+      <li *ngIf="currentUser" class="title-name">Welcome {{ currentUser.data.user.firstname }} {{ currentUser.data.user.lastname }}</li>
+      <li *ngIf="!currentUser"><a [routerLink]="['/login']">Login</a></li>
+      <li *ngIf="!currentUser"><a [routerLink]="['/register']">Register</a></li>
+      <li><a *ngIf="currentUser" (click)="logout()">Logout</a></li>
+      <li *ngIf="currentUser">Bookmark</li>
+      <ul *ngIf="currentUser">
+        <li
+          *ngFor="let bookmark of currentUser.data.bookmark"
+          (click)="search(bookmark.id)"
+        >
+          <a (click)="search(bookmark.id)">{{ bookmark.name }}</a>
+          <span class="title-bar-controls">
+            <button (click)="removeBookmark(bookmark._id)" aria-label="Close"></button>
+          </span>
+        </li>
+      </ul>
+      <li>Search</li>
+      <ul class="search-section">
+        <li>
+          <select *ngIf="sources" id="salle" [(ngModel)]="sourceSelected">
+            <option disabled selected>Select a source</option>
+            <option
+              *ngFor="let source of sources.sources"
+              [value]="source.id"
+            >{{source.name}}</option>
+          </select>
+        </li>
+        <li>
+          <input id="keyword" class="border-input" type="text" placeholder="Keyword" [(ngModel)]="keyword" />
+        </li>
+      </ul>
 
-<nav *ngIf="!currentUser">
-  <button [routerLink]="['/login']">Login</button>
-  <button [routerLink]="['/register']">Register</button>
-</nav>
+      <section>
+        <button (click)="search()">Submit</button>
+        <button *ngIf="currentUser" (click)="addBookmark()">Add bookmarks</button>
+      </section>
+    </ul>
+  </aside>
 
-<button *ngIf="currentUser" (click)="logout()">Logout</button>
+  <main>
+    <h2>NEWS APP</h2>
+    <section id="articles" *ngIf="showSource">
+      <div *ngIf="showSource.totalResults > 0">
 
-<section *ngIf="currentUser">
-  <div *ngFor="let bookmark of currentUser.data.bookmark">
-    <button (click)="search(bookmark.id)">{{ bookmark.name }}</button>
-    <button (click)="removeBookmark(bookmark._id)">X</button>
-  </div>
-</section>
+        <div class="window" *ngFor="let source of showSource.articles">
 
-<section>
-  <select *ngIf="sources" id="salle" [(ngModel)]="sourceSelected">
-    <option disabled selected>Select a source</option>
-    <option
-      *ngFor="let source of sources.sources"
-      [value]="source.id"
-      >{{source.name}}</option>
-  </select>
-  <div class="input-container">
-    <label for="keyword">Keyword</label>
-    <input id="keyword" class="border-input" type="text" placeholder="Keyword" [(ngModel)]="keyword" />
-  </div>
-  <button (click)="search()">Submit</button>
-  <button *ngIf="currentUser" (click)="addBookmark()">Add bookmarks</button>
-</section>
+          <div class="title-bar">
+            <span class="title-bar-text">{{ source.title }}</span>
+            <span class="title-bar-controls">
+              <button aria-label="Minimize"></button>
+              <button aria-label="Maximize"></button>
+              <button aria-label="Close"></button>
+            </span>
+          </div>
 
-<section *ngIf="showSource">
-  <div *ngIf="showSource.totalResults > 0">
-    <div *ngFor="let source of showSource.articles">
-      <img src="{{ source.urlToImage }}" alt="">
-      <div>
-        <h3>{{ source.title }}</h3>
-        <p>{{ source.author }}</p>
-        <p>{{ source.description }}</p>
-        <a href="{{ source.url }}">See news</a>
+          <div class="window-body">
+            <img src="{{ source.urlToImage }}" alt="">
+            <div>
+              <p>{{ source.author }}</p>
+              <p>{{ source.description }}</p>
+              <a href="{{ source.url }}">See news</a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div *ngIf="showSource.totalResults === 0">
-    <p>No result</p>
-  </div>
+      <div *ngIf="showSource.totalResults === 0">
+        <p>No result</p>
+      </div>
+    </section>
+  </main>
+
 </section>

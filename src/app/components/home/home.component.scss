@@ -1,0 +1,42 @@
+#home {
+
+  aside {
+    width: 200px;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    padding: 8px;
+    display: flex;
+    align-items: stretch;
+
+    .title-name {
+      margin-bottom: 10px;
+    }
+
+    .title-bar-controls {
+      display: inline-block;
+    }
+
+    .search-section {
+      margin-bottom: 10px;
+    }
+  }
+
+  main {
+    width: 65rem;
+    margin-left: 240px;
+    margin-bottom: 60px;
+  }
+
+  #articles {
+    .window {
+      width: 600px;
+      margin: 8px 0;
+
+      img {
+        width: 300px;
+        height: auto;
+      }
+    }
+  }
+}
