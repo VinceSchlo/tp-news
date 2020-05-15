@@ -17,7 +17,7 @@ export interface UserData {
   providedIn: 'root'
 })
 export class UserService {
-  private user: UserData;
+  private user: object;
   apiUrl: string;
   httpOptionsJson: object;
   currentUser: BehaviorSubject<any>;
@@ -37,48 +37,45 @@ export class UserService {
 
     return this.http.post(`${this.apiUrl}/register`, body, this.httpOptionsJson);
   }
-  //
-  // getCurrentUser(): Observable<any> {
-  //   return this.currentUser.asObservable();
-  // }
 
-  // getUser(jwt) {
-  //   const observableUser = this.http.get<UserData>(`${this.apiUrl}/users/${jwt}`);
-  //   observableUser.subscribe( user => {
-  //     this.user = user;
-  //     this.currentUser.next(user);
-  //   });
-  //   return observableUser;
-  // }
+  getCurrentUser(): Observable<any> {
+    return this.currentUser.asObservable();
+  }
+
+  getUser(token) {
+    const observableUser = this.http.post(`${this.apiUrl}/me`, {token});
+    observableUser.subscribe( user => {
+      this.user = user;
+      this.currentUser.next(user);
+    });
+    return observableUser;
+  }
 
 
-  // checkCredentials(loginData) {
-  //   return this.http.post(`${this.apiUrl}/users/login`, loginData, this.httpOptionsJson );
-  // }
+  checkCredentials(loginData) {
+    return this.http.post(`${this.apiUrl}/login`, loginData, this.httpOptionsJson );
+  }
 
-  // finalCheckIn(user) {
-  //   this.user = user;
-  //   this.currentUser.next(user);
-  //   localStorage.setItem('access_token', this.user.token);
-  //
-  //   switch (this.user.role) {
-  //     case 'admin':
-  //       this.router.navigate(['/admin/users']);
-  //       break;
-  //     case 'user':
-  //     default:
-  //       this.router.navigate(['/']);
-  //       break;
-  //   }
-  //
-  // }
+  finalCheckIn(user) {
+    this.getUser(user.data.token);
 
-  // isAuthenticated() {
-  //   const token = localStorage.getItem('access_token');
-  //   if (token) {
-  //     return !this.jwtHelper.isTokenExpired(token);
-  //   }
-  //   return false;
-  // }
+    localStorage.setItem('token', user.data.token);
+
+    this.router.navigate(['/']);
+  }
+
+  isAuthenticated() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      return true;
+    }
+    return false;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.http.get(`${this.apiUrl}/logout`);
+    this.currentUser.next(null);
+  }
 
 }

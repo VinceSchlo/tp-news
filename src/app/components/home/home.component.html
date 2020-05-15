@@ -1,15 +1,35 @@
-<select *ngIf="sources" id="salle" [(ngModel)]="sourceSelected">
-  <option disabled selected>Select a source</option>
-  <option
-    *ngFor="let source of sources.sources"
-    [value]="source.id"
-    >{{source.name}}</option>
-</select>
-<div class="input-container">
-  <label for="keyword">Keyword</label>
-  <input id="keyword" class="border-input" type="text" placeholder="Keyword" [(ngModel)]="keyword" />
-</div>
-<button (click)="search()">Submit</button>
+<h1>NEWS APP</h1>
+<p *ngIf="currentUser">Welcome {{ currentUser.data.user.firstname }} {{ currentUser.data.user.lastname }}</p>
+
+<nav *ngIf="!currentUser">
+  <button [routerLink]="['/login']">Login</button>
+  <button [routerLink]="['/register']">Register</button>
+</nav>
+
+<button *ngIf="currentUser" (click)="logout()">Logout</button>
+
+<section *ngIf="currentUser">
+  <div *ngFor="let bookmark of currentUser.data.bookmark">
+    <button (click)="search(bookmark.id)">{{ bookmark.name }}</button>
+    <button (click)="removeBookmark(bookmark._id)">X</button>
+  </div>
+</section>
+
+<section>
+  <select *ngIf="sources" id="salle" [(ngModel)]="sourceSelected">
+    <option disabled selected>Select a source</option>
+    <option
+      *ngFor="let source of sources.sources"
+      [value]="source.id"
+      >{{source.name}}</option>
+  </select>
+  <div class="input-container">
+    <label for="keyword">Keyword</label>
+    <input id="keyword" class="border-input" type="text" placeholder="Keyword" [(ngModel)]="keyword" />
+  </div>
+  <button (click)="search()">Submit</button>
+  <button *ngIf="currentUser" (click)="addBookmark()">Add bookmarks</button>
+</section>
 
 <section *ngIf="showSource">
   <div *ngIf="showSource.totalResults > 0">
