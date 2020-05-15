@@ -9,7 +9,6 @@
       <ul *ngIf="currentUser">
         <li
           *ngFor="let bookmark of currentUser.data.bookmark"
-          (click)="search(bookmark.id)"
         >
           <a (click)="search(bookmark.id)">{{ bookmark.name }}</a>
           <span class="title-bar-controls">

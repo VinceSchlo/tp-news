@@ -28,6 +28,14 @@ export class HomeComponent implements OnInit {
 
     this.newsService.getAllSources().subscribe( sources => {
       this.sources = sources;
+
+      if (localStorage.getItem('keyword')) {
+        this.keyword = localStorage.getItem('keyword');
+      }
+      if (localStorage.getItem('sourceSelected')) {
+        this.sourceSelected = localStorage.getItem('sourceSelected');
+        this.search(this.sourceSelected);
+      }
     });
 
     this.userService.getCurrentUser().subscribe(currentUser => {
@@ -39,7 +47,17 @@ export class HomeComponent implements OnInit {
   search(id = null) {
     if (id) {
       this.sourceSelected = id;
+      localStorage.setItem('sourceSelected', id);
+    } else {
+      localStorage.setItem('sourceSelected', this.sourceSelected);
     }
+
+    if (this.keyword) {
+      localStorage.setItem('keyword', this.keyword);
+    } else {
+      localStorage.removeItem('keyword');
+    }
+
     this.newsService.getBySource(this.sourceSelected, this.keyword).subscribe( sources => {
       console.log(sources);
       this.showSource = sources;
