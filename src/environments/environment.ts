@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://newsapp.dwsapp.io/api'
+  API_URL: 'https://newsapp.dwsapp.io/api',
+  NEWS_API_URL: 'https://newsapi.org/v2',
+  API_KEY: '14b91ecece8c4e49aab413b813d628ba'
 };
 
 /*

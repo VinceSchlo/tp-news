@@ -1,1 +1,29 @@
-<p>home works!</p>
+<select *ngIf="sources" id="salle" [(ngModel)]="sourceSelected">
+  <option disabled selected>Select a source</option>
+  <option
+    *ngFor="let source of sources.sources"
+    [value]="source.id"
+    >{{source.name}}</option>
+</select>
+<div class="input-container">
+  <label for="keyword">Keyword</label>
+  <input id="keyword" class="border-input" type="text" placeholder="Keyword" [(ngModel)]="keyword" />
+</div>
+<button (click)="search()">Submit</button>
+
+<section *ngIf="showSource">
+  <div *ngIf="showSource.totalResults > 0">
+    <div *ngFor="let source of showSource.articles">
+      <img src="{{ source.urlToImage }}" alt="">
+      <div>
+        <h3>{{ source.title }}</h3>
+        <p>{{ source.author }}</p>
+        <p>{{ source.description }}</p>
+        <a href="{{ source.url }}">See news</a>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showSource.totalResults === 0">
+    <p>No result</p>
+  </div>
+</section>
