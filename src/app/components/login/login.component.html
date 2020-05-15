@@ -1,24 +1,30 @@
 <section id="login" class="window">
+
   <div class="title-bar">
-    <span class="title-bar-text">LOGIN</span>
+    <span class="title-bar-text">login</span>
   </div>
+
   <div class="window-body">
+
     <div class="field-row">
-    <div class="input-container">
-      <div class="field-row-stacked">
-        <label for="email">Email</label>
-        <input id="email" class="border-input" type="text" placeholder="Email" [(ngModel)]="credentials.email" />
+      <div class="input-container">
+        <div class="field-row-stacked">
+          <label for="email">Email</label>
+          <input id="email" class="border-input" type="text" placeholder="Email" [(ngModel)]="credentials.email" />
+        </div>
+      </div>
+
+      <div class="input-container">
+        <div class="field-row-stacked">
+          <label for="password">Password</label>
+          <input id="password" class="border-input" type="password" placeholder="Password" [(ngModel)]="credentials.password" />
+        </div>
       </div>
     </div>
-    <div class="input-container">
-      <div class="field-row-stacked">
-        <label for="password">Password</label>
-        <input id="password" class="border-input" type="password" placeholder="Password" [(ngModel)]="credentials.password" />
-      </div>
-    </div>
-    </div>
+
     <div class="field-row">
       <button (click)="login()">Login</button>
     </div>
+
   </div>
 </section>

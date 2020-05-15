@@ -1,0 +1,24 @@
+#register {
+
+  width: 350px;
+  margin: auto;
+
+  .title-bar {
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .input-container {
+    display: inline-block;
+    margin-right: 17px;
+    margin-bottom: 16px;
+  }
+
+  .field-row-stacked {
+    width: 150px;
+  }
+
+  .field-row {
+    justify-content: flex-end;
+  }
+}
